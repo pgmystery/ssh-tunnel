@@ -5,7 +5,7 @@ ENV SSH_PORT=22
 
 RUN apk add --update --no-cache bash expect openssh
 
-COPY ./ssh_server/sshd_config /etc/ssh/sshd_config
+COPY ./config/sshd_config /etc/ssh/sshd_config
 
 EXPOSE 6969
 
