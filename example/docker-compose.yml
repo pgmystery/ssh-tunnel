@@ -23,6 +23,8 @@ services:
     build:
       context: ..
       dockerfile: ./Dockerfile
+    # OR USE THE LATEST IMAGE:
+#    image: pgmystery/ssh-tunnel:latest
     hostname: ssh-tunnel
     secrets:
       - ssh_key_file
