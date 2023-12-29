@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TEST</title>
+</head>
+<body>
+    <h1 id="status" style="text-align: center;">LOADING ...</h1>
+
+    <script>
+        const status_element = document.getElementById('status')
+
+        fetch('/api')
+            .then(response => {
+              if (response.status === 200) {
+                status_element.innerHTML = 'SUCCESSFUL!'
+                status_element.style.color = 'green'
+              }
+              else {
+                status_element.innerHTML = 'ERROR!'
+                status_element.style.color = 'red'
+              }
+            })
+            .catch(() => {
+              status_element.innerHTML = 'ERROR!'
+              status_element.style.color = 'red'
+            })
+    </script>
+</body>
+</html>

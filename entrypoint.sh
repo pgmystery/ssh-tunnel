@@ -17,6 +17,15 @@ while getopts u:h:i:l:p:k: flag; do
     i)
       ssh_key_file=$OPTARG
       chmod 0600 $ssh_key_file
+
+      if [[ $(stat -c "%a" $ssh_key_file) != 600 ]]; then
+        ssh_key_file_name=$(basename ${ssh_key_file})
+        mkdir /root/.ssh
+        chmod 0700 /root/.ssh
+        cp "$ssh_key_file" "/root/.ssh/$ssh_key_file_name"
+        chmod 0600 "/root/.ssh/$ssh_key_file_name"
+        ssh_key_file="/root/.ssh/$ssh_key_file_name"
+      fi
     ;;
     l)
       ssh_command_arguments["ssh_tunnel"]="-NL $OPTARG"
