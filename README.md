@@ -16,7 +16,8 @@ Bind the port you want to the port of the container `6969`.
 
 ## Docker-compose or docker stack deploy
 
-Example:
+**In the [test](https://github.com/pgmystery/ssh-tunnel/tree/main/test) directory, there is an actual working test case**
+
 In this example, you will see a frontend service use the backend-api which is only reachable over the ssh-tunnel
 
 ```yaml
