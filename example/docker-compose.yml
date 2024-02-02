@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: ssh-server-backend.Dockerfile
     hostname: backend
+    ports:
+      - "8090:80"  # To show, that it is not accessible from "outside"
     networks:
       - ssh-tunnel-backend
 
