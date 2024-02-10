@@ -37,3 +37,4 @@ jobs:
         with:
           command: quickview,compare
           image: ${{ steps.meta.outputs.tags }}
+          to-latest: true
