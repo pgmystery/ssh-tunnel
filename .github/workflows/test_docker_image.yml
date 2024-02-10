@@ -1,0 +1,33 @@
+name: Test Docker image
+
+on: [push]
+
+jobs:
+  test_docker_image:
+    name: Test docker images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            pgmystery/ssh-tunnel
+            ghcr.io/${{ github.repository }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Docker Scout Scan
+        uses: docker/scout-action@v1
+        with:
+          command: quickview,compare
+          image: ${{ steps.meta.outputs.tags }
