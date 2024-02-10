@@ -10,13 +10,13 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            pgmystery/ssh-tunnel
-            ghcr.io/${{ github.repository }}
+#      - name: Extract metadata (tags, labels) for Docker
+#        id: meta
+#        uses: docker/metadata-action@v5
+#        with:
+#          images: |
+#            pgmystery/ssh-tunnel
+#            ghcr.io/${{ github.repository }}
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v5
