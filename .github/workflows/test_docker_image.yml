@@ -16,7 +16,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-      - name: Build and push Docker images
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: pgmystery/ssh-tunnel
+
+      - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
