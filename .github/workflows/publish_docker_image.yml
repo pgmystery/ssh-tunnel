@@ -32,6 +32,28 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
+          images: pgmystery/ssh-tunnel
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Docker Scout Scan
+        uses: docker/scout-action@v1
+        with:
+          command: quickview,cves
+          image: ${{ steps.meta.outputs.tags }}
+          exit-on: vulnerability
+          exit-code: true
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
           images: |
             pgmystery/ssh-tunnel
             ghcr.io/${{ github.repository }}
