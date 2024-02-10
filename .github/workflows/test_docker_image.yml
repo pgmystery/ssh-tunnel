@@ -35,3 +35,4 @@ jobs:
         with:
           command: quickview,cves
           image: ${{ steps.meta.outputs.tags }}
+          exit-on: vulnerability
