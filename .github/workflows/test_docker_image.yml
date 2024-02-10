@@ -30,4 +30,4 @@ jobs:
         uses: docker/scout-action@v1
         with:
           command: quickview,compare
-          image: ${{ steps.meta.outputs.tags }
+          image: ${{ steps.meta.outputs.tags }}
