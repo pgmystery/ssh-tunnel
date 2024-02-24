@@ -39,14 +39,14 @@ jobs:
         with:
           context: .
           push: false
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.pre_meta.outputs.tags }}
+          labels: ${{ steps.pre_meta.outputs.labels }}
 
       - name: Docker Scout Scan
         uses: docker/scout-action@v1
         with:
           command: quickview,cves
-          image: ${{ steps.meta.outputs.tags }}
+          image: ${{ steps.pre_meta.outputs.tags }}
           exit-on: vulnerability
           exit-code: true
 
