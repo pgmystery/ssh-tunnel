@@ -1,65 +1,44 @@
 #!/bin/bash
 
-declare -A ssh_command_arguments
-
 echo_error() { echo "$@" 1>&2; }
 
-eval $(ssh-agent -s)
+eval "$(ssh-agent -s)"
 
-while getopts u:h:i:l:p:k: flag; do
-  case $flag in
-    u)
-      ssh_username=$OPTARG
-    ;;
-    h)
-      ssh_host=$OPTARG
-    ;;
-    i)
-      ssh_key_file=$OPTARG
-      chmod 0600 $ssh_key_file
-
-      if [[ $(stat -c "%a" $ssh_key_file) != 600 ]]; then
-        ssh_key_file_name=$(basename ${ssh_key_file})
-        mkdir /root/.ssh
-        chmod 0700 /root/.ssh
-        cp "$ssh_key_file" "/root/.ssh/$ssh_key_file_name"
-        chmod 0600 "/root/.ssh/$ssh_key_file_name"
-        ssh_key_file="/root/.ssh/$ssh_key_file_name"
-      fi
-    ;;
-    l)
-      ssh_command_arguments["ssh_tunnel"]="-NL $OPTARG"
-    ;;
-    p)
-      ssh_command_arguments["ssh_port"]="-p $OPTARG"
-    ;;
-    k)
-      ssh_key_passphrase_file=$(cat $OPTARG)
-    ;;
-    *) # invalid options
-    ;;
-  esac
-done
-
-if [ -z ${ssh_username+x} ]; then
+if [[ -z "${SSH_USERNAME}" ]]; then
   echo_error "The variable 'SSH_USERNAME' is not set!"
   exit 1
 fi
-if [ -z ${ssh_host+x} ]; then
+if [[ -z ${SSH_HOST} ]]; then
   echo_error "The variable 'SSH_HOST' is not set!"
   exit 1
 fi
-if [ -z ${ssh_key_file+x} ]; then
+if [[ -z ${REMOTE_PORT} ]]; then
+  echo_error "The variable 'REMOTE_PORT' is not set!"
+  exit 1
+fi
+if [[ -z ${SSH_KEY_FILE} ]]; then
   echo_error "The variable 'SSH_KEY_FILE' is not set!"
   exit 1
 else
-  if [ -z ${ssh_key_passphrase_file+x} ]; then
-    cat $ssh_key_file | ssh-add -
+  chmod 0600 "$SSH_KEY_FILE"
+
+  if [[ $(stat -c "%a" "$SSH_KEY_FILE") != 600 ]]; then
+    SSH_KEY_FILE_NAME=$(basename "${SSH_KEY_FILE}")
+    mkdir /root/.ssh
+    chmod 0700 /root/.ssh
+    cp "$SSH_KEY_FILE" "/root/.ssh/$SSH_KEY_FILE_NAME"
+    chmod 0600 "/root/.ssh/$SSH_KEY_FILE_NAME"
+    SSH_KEY_FILE="/root/.ssh/$SSH_KEY_FILE_NAME"
+  fi
+
+  if [[ -z ${SSH_KEY_PASSPHRASE_FILE} ]]; then
+    cat "$SSH_KEY_FILE" | ssh-add -
   else
+ssh_key_passphrase=$(cat $SSH_KEY_PASSPHRASE_FILE)
 expect << EOF
-  spawn ssh-add $ssh_key_file
+  spawn ssh-add $SSH_KEY_FILE
   expect "Enter passphrase"
-  send "$ssh_key_passphrase_file\r"
+  send "$ssh_key_passphrase\r"
   expect off
 EOF
   fi
@@ -67,4 +46,4 @@ fi
 
 echo "DONE!"
 
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${ssh_command_arguments["ssh_tunnel"]} $ssh_username@$ssh_host ${ssh_command_arguments["ssh_port"]}
+autossh -M 0 -N -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -L "*:6969:0.0.0.0:${REMOTE_PORT}" -p ${SSH_PORT} ${SSH_USERNAME}@${SSH_HOST} $*

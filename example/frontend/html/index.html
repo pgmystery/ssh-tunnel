@@ -1,33 +1,59 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TEST</title>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+  >
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TEST SSH-TUNNEL</title>
 </head>
+<style>
+  h1 {
+    text-align: center;
+  }
+</style>
 <body>
-    <h1 id="status" style="text-align: center;">LOADING ...</h1>
+    <div>
+      <h1>/api</h1>
+      <h1 id="status1">LOADING ...</h1>
+      <h1 id="status1_response"></h1>
+    </div>
+    <br />
+    <div>
+      <h1>/api2</h1>
+      <h1 id="status2">LOADING ...</h1>
+      <h1 id="status2_response"></h1>
+    </div>
 
     <script>
-        const status_element = document.getElementById('status')
+      const status_element = document.getElementById('status1')
+      const status_element_response = document.getElementById('status1_response')
+      const status_element2 = document.getElementById('status2')
+      const status_element2_response = document.getElementById('status2_response')
 
-        fetch('/api')
-            .then(response => {
-              if (response.status === 200) {
-                status_element.innerHTML = 'SUCCESSFUL!'
-                status_element.style.color = 'green'
-              }
-              else {
-                status_element.innerHTML = 'ERROR!'
-                status_element.style.color = 'red'
-              }
-            })
-            .catch(() => {
+      fetchAPI('/api', status_element, status_element_response)
+      fetchAPI('/api2', status_element2, status_element2_response)
+
+      function fetchAPI(apiPath, status_element, status_element_response) {
+        fetch(apiPath)
+          .then(async response => {
+            if (response.status === 200) {
+              status_element.innerHTML = 'SUCCESSFUL!'
+              status_element.style.color = 'green'
+              status_element_response.innerHTML = await response.text()
+            }
+            else {
               status_element.innerHTML = 'ERROR!'
               status_element.style.color = 'red'
-            })
+            }
+          })
+          .catch(() => {
+            status_element.innerHTML = 'ERROR!'
+            status_element.style.color = 'red'
+          })
+      }
     </script>
 </body>
 </html>

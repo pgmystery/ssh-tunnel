@@ -14,5 +14,7 @@ RUN chmod 0700 /root/.ssh \
     && touch /run/openrc/softlevel
 
 EXPOSE 22
+EXPOSE 80
+EXPOSE 81
 
 ENTRYPOINT ["sh", "-c", "rc-status; rc-service sshd start; /docker-entrypoint.sh nginx -g 'daemon off;'"]

@@ -1,7 +1,7 @@
 # SSH-Tunnel
 
 ## Bind ports
-Bind the port you want to the port of the container `6969`.
+Bind the port you want to use locally to the port of the container `6969`.
 
 ## Environment Variables
 

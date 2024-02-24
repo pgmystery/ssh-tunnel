@@ -116,3 +116,6 @@ Subsystem       sftp    internal-sftp
 AllowTcpForwarding yes
 #       PermitTTY no
 #       ForceCommand cvs server
+
+ServerAliveInterval 30
+ServerAliveCountMax 3

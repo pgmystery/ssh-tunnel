@@ -8,11 +8,20 @@ services:
     hostname: backend
     ports:
       - "8090:80"  # To show, that it is not accessible from "outside"
+      - "8091:81"  # To show, that it is not accessible from "outside"
     networks:
       - ssh-tunnel-backend
+    healthcheck:
+      test: netstat -an | grep 22 > /dev/null; if [ 0 != $? ]; then exit 1; fi;
+      interval: 5s
+      retries: 5
+      start_period: 20s
+      timeout: 1s
 
   frontend:
     image: nginx:latest
+    depends_on:
+      - ssh-tunnel
     ports:
       - "8080:80"
     volumes:
@@ -28,6 +37,10 @@ services:
     # OR USE THE LATEST IMAGE:
 #    image: pgmystery/ssh-tunnel:latest
     hostname: ssh-tunnel
+    command: -NL *:6968:0.0.0.0:81
+    depends_on:
+      ssh-server-backend:
+        condition: service_healthy
     secrets:
       - ssh_key_file
       - ssh_key_passphrase_file
