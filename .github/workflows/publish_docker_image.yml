@@ -43,7 +43,7 @@ jobs:
           labels: ${{ steps.pre_meta.outputs.labels }}
 
       - name: Docker Scout Scan
-        uses: docker/scout-action@v1
+        uses: docker/scout-action@v1.5.0
         with:
           command: quickview,cves
           image: ${{ steps.pre_meta.outputs.tags }}
