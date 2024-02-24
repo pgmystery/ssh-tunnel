@@ -46,7 +46,7 @@ jobs:
         uses: docker/scout-action@v1.5.0
         with:
           command: quickview,cves
-          image: ${{ steps.pre_meta.outputs.tags }}
+          image: local://${{ steps.pre_meta.outputs.tags }}
           exit-on: vulnerability
           exit-code: true
 
