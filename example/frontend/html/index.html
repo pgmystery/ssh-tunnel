@@ -18,41 +18,42 @@
     <div>
       <h1>/api</h1>
       <h1 id="status1">LOADING ...</h1>
-      <h1 id="status1_response"></h1>
+      <h1 id="status1-response"></h1>
     </div>
     <br />
     <div>
       <h1>/api2</h1>
       <h1 id="status2">LOADING ...</h1>
-      <h1 id="status2_response"></h1>
+      <h1 id="status2-response"></h1>
     </div>
 
     <script>
-      const status_element = document.getElementById('status1')
-      const status_element_response = document.getElementById('status1_response')
-      const status_element2 = document.getElementById('status2')
-      const status_element2_response = document.getElementById('status2_response')
+      fetchAPI('/api', 'status1', 'status1-response')
+      fetchAPI('/api2', 'status2', 'status2-response')
 
-      fetchAPI('/api', status_element, status_element_response)
-      fetchAPI('/api2', status_element2, status_element2_response)
+      async function fetchAPI(apiPath, statusElementId, statusElementResponseId) {
+        const statusElement = document.getElementById(statusElementId)
+        const statusElementResponse = document.getElementById(statusElementResponseId)
 
-      function fetchAPI(apiPath, status_element, status_element_response) {
-        fetch(apiPath)
-          .then(async response => {
-            if (response.status === 200) {
-              status_element.innerHTML = 'SUCCESSFUL!'
-              status_element.style.color = 'green'
-              status_element_response.innerHTML = await response.text()
-            }
-            else {
-              status_element.innerHTML = 'ERROR!'
-              status_element.style.color = 'red'
-            }
-          })
-          .catch(() => {
-            status_element.innerHTML = 'ERROR!'
-            status_element.style.color = 'red'
-          })
+        try {
+          const response = await fetch(apiPath)
+
+          if (response.status === 200) {
+            statusElement.innerHTML = 'SUCCESSFUL!'
+            statusElement.style.color = 'green'
+            statusElementResponse.innerHTML = await response.text()
+          }
+          else {
+            statusElement.innerHTML = 'ERROR!'
+            statusElement.style.color = 'red'
+          }
+        }
+        catch (e) {
+          console.error(e)
+
+          statusElement.innerHTML = 'ERROR!'
+          statusElement.style.color = 'red'
+        }
       }
     </script>
 </body>
