@@ -44,6 +44,9 @@ services:
     secrets:
       - ssh_key_file
       - ssh_key_passphrase_file
+    ports:
+      - "8081:6969"  # To show that you can access the local ports over you docker host
+      - "8082:6968"  # To show that you can access the local ports over you docker host
     environment:
       REMOTE_PORT: 80  # The port of the service you want to connect
       SSH_HOST: backend  # The remote-host name/ip
