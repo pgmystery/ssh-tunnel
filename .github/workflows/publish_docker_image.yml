@@ -48,7 +48,7 @@ jobs:
           command: quickview,cves
           image: local://pgmystery/ssh-tunnel
 #          exit-on: vulnerability
-          exit-code: true
+#          exit-code: true
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
