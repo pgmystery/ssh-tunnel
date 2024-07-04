@@ -65,3 +65,11 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push Docker image (backend example)
+        uses: docker/build-push-action@v5
+        with:
+          context: {context}/example
+          file: ssh-server-backend.Dockerfile
+          push: true
+          tags: example-ssh-server-backend:latest

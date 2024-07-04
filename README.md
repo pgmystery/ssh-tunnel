@@ -15,7 +15,7 @@ Bind the port you want to use locally to the port of the container `6969`.
 | SSH_KEY_PASSPHRASE_FILE |          |         | The optional file which has the passphrase for the ssh-key as the content |
 
 
-## Example 1: Directly run command
+## Directly run command
 ```shell
 docker run \
   --restart always \
@@ -29,11 +29,11 @@ docker run \
   pgmystery/ssh-tunnel:latest
 ```
 
-## Example 2: Docker-compose or docker stack deploy
+## ... via [`docker-compose`](https://github.com/docker/compose) or [`docker stack deploy`](https://docs.docker.com/engine/reference/commandline/stack_deploy/)
 
 **In the [example](example) directory, there is an actual working test case**
 
-In this example, you will see a frontend service use the backend-api which is only reachable over the ssh-tunnel
+In this example, you will see a frontend service use a backend-api which is only reachable over the ssh-tunnel
 
 ```yaml
 version: '3.9'
