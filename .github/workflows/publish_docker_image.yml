@@ -70,6 +70,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./example
-          file: ssh-server-backend.Dockerfile
+          file: ./example/ssh-server-backend.Dockerfile
           push: true
           tags: example-ssh-server-backend:latest
