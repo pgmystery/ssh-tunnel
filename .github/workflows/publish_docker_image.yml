@@ -66,10 +66,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build and push Docker image (backend example)
-        uses: docker/build-push-action@v5
-        with:
-          context: ./example
-          file: ./example/ssh-server-backend.Dockerfile
-          push: true
-          tags: ghcr.io/${{ github.repository }}/example-ssh-server-backend:latest
+#      - name: Build and push Docker image (backend example)
+#        uses: docker/build-push-action@v5
+#        with:
+#          context: ./example
+#          file: ./example/ssh-server-backend.Dockerfile
+#          push: true
+#          tags: ghcr.io/${{ github.repository }}/example-ssh-server-backend:latest
