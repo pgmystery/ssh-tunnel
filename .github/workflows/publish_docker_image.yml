@@ -72,4 +72,4 @@ jobs:
           context: ./example
           file: ./example/ssh-server-backend.Dockerfile
           push: true
-          tags: example-ssh-server-backend:latest
+          tags: ghcr.io/${{ github.repository }}/example-ssh-server-backend:latest
