@@ -7,9 +7,6 @@ jobs:
   push_to_registries:
     name: Push Docker image to multiple registries (backend)
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: './example'
     permissions:
       packages: write
       contents: read
@@ -27,7 +24,7 @@ jobs:
       - name: Build and push Docker image (backend example)
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./ssh-server-backend.Dockerfile
+          context: ./example
+          file: ./example/ssh-server-backend.Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}/example-ssh-server-backend:latest
