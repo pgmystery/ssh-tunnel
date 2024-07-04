@@ -14,7 +14,22 @@ Bind the port you want to use locally to the port of the container `6969`.
 | SSH_KEY_FILE            | X        |         | The ssh-private-key file                                                  |
 | SSH_KEY_PASSPHRASE_FILE |          |         | The optional file which has the passphrase for the ssh-key as the content |
 
-## Docker-compose or docker stack deploy
+
+## Example 1: Directly run command
+```shell
+docker run \
+  --restart always \
+  -p <expose port locally>:6969 \
+  --env SSH_HOST=<IP-address or Hostname of the remote server> \
+  --env SSH_KEY_FILE=<path of the ssh-key-file which is mounted (use secrets if you can)> \
+#  --env SSH_KEY_PASSPHRASE_FILE=<OPTIONAL ssh-key passphrase file path which is mounted (use secrets if you can)> \
+  --env SSH_PORT=<SSH port of the other host to connect (example: 22)> \
+  --env SSH_USERNAME=<SSH username (example: root)> \
+  --env REMOTE_PORT=<remote port you want to access (example: 80 for http)> \
+  pgmystery/ssh-tunnel:latest
+```
+
+## Example 2: Docker-compose or docker stack deploy
 
 **In the [example](example) directory, there is an actual working test case**
 

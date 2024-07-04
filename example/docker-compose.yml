@@ -9,6 +9,7 @@ services:
     ports:
       - "8090:80"  # To show, that it is not accessible from "outside"
       - "8091:81"  # To show, that it is not accessible from "outside"
+      - "2222:22"  # OPTIONAL: SSH port only if you want to connect to it from your host. Not needed in the docker-compose file
     networks:
       - ssh-tunnel-backend
     healthcheck:
